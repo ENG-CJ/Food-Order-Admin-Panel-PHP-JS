@@ -125,7 +125,7 @@
 
             $(document).on("click", "a.delete", function() {
                 var id = $(this).attr("deleteID");
-                alert(id)
+               
                 swal({
                         title: "Are you sure?",
                         text: "Once deleted, you will not be able to recover this data!",

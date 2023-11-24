@@ -34,8 +34,8 @@
             <p class="mb-4">Adminstration Zone.</p>
           
               <div class="form-group first">
-                <label for="username">Username/Email</label>
-                <input type="text" class="form-control email" placeholder="your-email@gmail.com" id="username">
+                <label for="username">Email</label>
+                <input type="text" class="form-control email" placeholder="your_email@gmail.com" id="username">
               </div>
               <div class="form-group last mb-3">
                 <label for="password">Password</label>
@@ -43,10 +43,7 @@
               </div>
               
               <div class="d-flex mb-5 align-items-center">
-                <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
-                  <input type="checkbox" checked="checked"/>
-                  <div class="control__indicator"></div>
-                </label>
+               
                 <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
               </div>
 
@@ -73,17 +70,25 @@
 
     <script>
       $(document).ready(()=>{
+        localStorage.clear();
         $(".login").click(()=>{
           if($(".email").val()=="" || $(".pass").val()=="")
               displayToast("Please enter your credentials","error",3000);
           else{
             validateCredentials($(".email").val(), $(".pass").val(),(res)=>{
-              console.log(res)
+             if(res.data.length>0){
+              
+                localStorage.setItem("user_id",res.data[0].id);
+               
+                window.location.href="./views/"
+               
+             }else
+              displayToast("Incorrect User Credentials","error",3000)
             })
           }
         })
 
-        
+
         function validateCredentials(email,pass,response){  
          $.ajax({
           method : "GET",

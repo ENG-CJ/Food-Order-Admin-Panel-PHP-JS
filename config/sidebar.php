@@ -24,19 +24,19 @@
                          <a class="nav-link" href="layout-static.html">Payments</a>
                          <a class="nav-link" href="layout-static.html">Delivery</a>
                          <a class="nav-link" href="layout-static.html">Foods</a>
-                  
-                        
+
+
                      </nav>
                  </div>
-           
+
                  <div class="sb-sidenav-menu-heading">Others</div>
-                 <a class="nav-link" href="charts.html">
+                 <a class="nav-link" href="../views/user_profile.php">
                      <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                     Ratings
+                     Profile
                  </a>
-                 <a class="nav-link" href="tables.html">
+                 <a class="nav-link logout" href="../">
                      <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                     Tables
+                     Logout
                  </a>
              </div>
          </div>
