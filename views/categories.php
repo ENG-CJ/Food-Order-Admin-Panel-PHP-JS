@@ -24,8 +24,8 @@
             <main>
                 <div class="container-fluid px-4">
                     <div class="">
-                        <h6 class="mt-4">Manage All Users</h6>
-                        <button class="btn btn-success createUser">Create User</button>
+                        <h6 class="mt-4">Manage All Categories</h6>
+                        <button class="btn btn-success createCategory">Create Category</button>
                     </div>
                     <div class="card mb-4 mt-3">
                         <div class="card-header">
@@ -33,12 +33,12 @@
                             List of Users
                         </div>
                         <div class="card-body">
-                            <table class="usersTable">
+                            <table class="categories">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>username</th>
-                                        <th>Email</th>
+                                        <th>Category</th>
+                                        <th>Description</th>
                                         <th>Actions</th>
 
                                     </tr>
@@ -65,11 +65,11 @@
         </div>
     </div>
 
-    <div class="modal fade" id="usersModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Admin</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add / Edit Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -79,21 +79,16 @@
 
                     </div>
                     <div class="form-group mb-2">
-                        <label>Username *</label>
-                        <input type="text" class="form-control username" required>
+                        <label>Category *</label>
+                        <input type="text" class="form-control category" placeholder="e.g Pizza" required>
+                        <input type="text" hidden class="form-control id" placeholder="e.g Pizza" required>
                     </div>
                     <div class="form-group mb-2">
-                        <label>Email *</label>
-                        <input type="email" class="form-control email" required>
+                        <label>Description [optional]</label>
+                        <textarea name="description" placeholder="you can optionally Describe this category" id="" cols="30" rows="10" class="form-control description"></textarea>
                     </div>
-                    <div class="form-group mb-2">
-                        <label>Password *</label>
-                        <input type="password" class="form-control password" required>
-                    </div>
-                    <!-- <div class="form-group mb-2">
-                        <label>Profile (Optional)</label>
-                        <input type="file" class="form-control profile_image" required>
-                    </div> -->
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary close" data-dismiss="modal">Close</button>
@@ -115,14 +110,40 @@
 
     <script>
         $(document).ready(function() {
-            $(".createUser").click(() =>
-                $("#usersModal").modal("show")
-            )
+            $(".createCategory").click(() => {
+
+                $('.category').val('')
+                $('.description').val('')
+                $('.save').text("save")
+                $("#categoryModal").modal("show")
+            })
             $(".close").click(() => {
-                $("#usersModal").modal("hide")
+                $("#categoryModal").modal("hide")
             })
 
-
+            function fetchSingle(id, response) {
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:4200/categories/" + id,
+                    success: function(res) {
+                        response(res)
+                    },
+                    error: function(res) {
+                        console.log(res);
+                    }
+                })
+            }
+            $(document).on("click", "a.edit", function() {
+                var id = $(this).attr("editID");
+                fetchSingle(id, res => {
+                    console.log(res)
+                    $('.category').val(res.data[0].name)
+                    $('.description').val(res.data[0].description)
+                    $('.id').val(id)
+                    $('.save').text("Edit")
+                    $('#categoryModal').modal('show')
+                })
+            })
             $(document).on("click", "a.delete", function() {
                 var id = $(this).attr("deleteID");
 
@@ -135,11 +156,11 @@
                     })
                     .then((willDelete) => {
                         if (willDelete) {
-                            deleteUser(id, (res) => {
+                            deleteCategory(id, (res) => {
                                 swal(res.message, {
                                     icon: "success",
                                 });
-                                readUsers();
+                                readCategories();
                             })
 
                         }
@@ -149,61 +170,61 @@
                     });
             })
             $(".save").click(() => {
-                if ($('.username').val() == "" || $('.email').val() == "" || $('.password').val() == "") {
-                    displayToast("All fields are required", "error", 3000);
-                    return;
-                }
-                if (!containsOnlyCharsAndDigits($('.username').val())) {
-                    displayToast("username must be only alphanumeric values", "error", 3000);
-                    return;
-                }
-                if (!isValidEmail($('.email').val())) {
-                    displayToast("Incorrect Email format", "error", 3000);
-                    return;
-                }
-                checkUser($(".email").val(), $(".username").val(), (res) => {
-
-                    if (res.status) {
+                if ($('.save').text().toLocaleLowerCase() == "save") {
+                    if ($('.category').val() == "") {
+                        displayToast("Category Is required", "error", 3000);
+                        return;
+                    }
+                    checkCategory($('.category').val(), res => {
                         if (res.data.length > 0) {
-                            displayToast("User with this email or username already exist", "error", 3000)
+                            displayToast("Category already exist", "error", 3000);
                             return;
                         }
-
-                        createUser({
-
-                            "username": $(".username").val(),
-                            "email": $(".email").val(),
-                            "password": $(".password").val()
-
+                        createCategory({
+                            name: $('.category').val(),
+                            description: $('.description').val() == "" ? "No Description" : $('.description').val(),
                         })
-                    } else {
-                        console.log("here is error");
-                        displayToast(res.description, "error", 3000)
+                        $("#categoryModal").modal("hide")
+                    })
+
+                } else {
+                    if ($('.category').val() == "") {
+                        displayToast("Category Is required", "error", 3000);
+                        return;
                     }
-
-                })
-
-
+                    updateCategory({
+                        id: $('.id').val(),
+                        name: $('.category').val(),
+                        description: $('.description').val() == "" ? "No Description" : $('.description').val(),
+                    })
+                    $("#categoryModal").modal("hide")
+                }
             })
 
             // read users
-            function readUsers() {
+            function readCategories() {
                 $.ajax({
                     method: "GET",
-                    url: "http://localhost:4200/users/",
+                    url: "http://localhost:4200/categories/",
                     success: function(res) {
-                        $(".usersTable tbody").html('');
+                        $(".categories tbody").html('');
                         var html = "<tr>";
                         res.data.forEach(value => {
-                            html += `<td>${value.id}</td>`
-                            html += `<td>${value.username}</td>`
-                            html += `<td>${value.email}</td>`
-                            html += `<td><a deleteID=${value.id} class='btn btn-danger delete'><i class="fa-solid fa-circle-minus"></i></a>`
+                            html += `<td>${value.cat_id}</td>`
+                            html += `<td>${value.name}</td>`
+                            html += `<td>${value.description.slice(0,50)}...</td>`
+                            html += `<td>
+                            <a deleteID=${value.cat_id} class='btn btn-danger delete'><i class="fa-solid fa-circle-minus"></i>
+                            </a>
+                            <a editID=${value.cat_id} class='btn btn-success edit'><i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            
+                            </td>`
                             html += "</tr>"
                         })
 
-                        $(".usersTable tbody").html(html);
-                        $('.usersTable').DataTable();
+                        $(".categories tbody").html(html);
+                        $('.categories').DataTable();
 
                     },
                     error: function(res) {
@@ -212,56 +233,75 @@
                 })
 
             }
-            readUsers()
+            readCategories()
 
             // delete
-            function deleteUser(id, response) {
+            function deleteCategory(id, response) {
                 $.ajax({
                     method: "DELETE",
-                    url: "http://localhost:4200/users/" + id,
+                    url: "http://localhost:4200/categories/" + id,
                     success: function(res) {
+                        if (!res.status) {
+                            displayToast("Something Went Wrong, During Deletion", "error", 3000);
+                            return;
+                        }
                         response(res)
                     },
                     error: function(res) {
+
                         console.log(res);
+                        displayToast(res.responseText, "error", 5000);
                     }
                 })
 
             }
 
             // create user
-            function createUser(data) {
+            function createCategory(data) {
                 $.ajax({
                     method: "POST",
                     dataType: "JSON",
                     data: data,
-                    url: "http://localhost:4200/users/register",
+                    url: "http://localhost:4200/categories/addCategory",
                     success: function(res) {
-                        if (res.status) {
-                            readUsers()
-                            displayToast("User Created Successfully", "success", 4000);
-                        } else {
-                            console.log("here is error2");
-                            displayToast(res.description, "error", 4000);
-                        }
+                        displayToast("Category added successfully", "success", 3000);
+                        readCategories()
                     },
                     error: function(res) {
                         console.log(res);
-                        displayToast(res.responseText, "error", 4000);
+                        displayToast(res.responseText, "error", 3000);
                     }
                 })
 
             }
 
-            function checkUser(email, username, response) {
+            function updateCategory(data) {
+                $.ajax({
+                    method: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    url: "http://localhost:4200/categories/updateCategory",
+                    success: function(res) {
+                        displayToast("Category updated successfully", "success", 3000);
+                        readCategories()
+                        $('#categoriesModal').modal("hide")
+                    },
+                    error: function(res) {
+                        console.log(res);
+                    }
+                })
+
+            }
+
+            function checkCategory(name, response) {
                 $.ajax({
                     method: "POST",
                     dataType: "JSON",
                     data: {
-                        "email": email,
-                        "username": username
+                        "name": name,
+
                     },
-                    url: "http://localhost:4200/users/validateUser",
+                    url: "http://localhost:4200/categories/checkCategory",
                     success: function(res) {
                         response(res);
                     },
@@ -273,26 +313,6 @@
 
             }
 
-            function containsOnlyCharsAndDigits(username) {
-
-                const charDigitRegex = /^[a-zA-Z0-9]+$/;
-
-                return charDigitRegex.test(username);
-            }
-
-            function isValidEmail(email) {
-
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                return emailRegex.test(email);
-            }
-
-            function hasSpaces(username) {
-
-                const spaceRegex = /\s/;
-
-                return spaceRegex.test(username);
-            }
             // toast
             function displayToast(message, type, timeout) {
                 if (type == "error") {

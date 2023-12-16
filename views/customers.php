@@ -24,8 +24,8 @@
             <main>
                 <div class="container-fluid px-4">
                     <div class="">
-                        <h6 class="mt-4">Manage All Users</h6>
-                        <button class="btn btn-success createUser">Create User</button>
+                        <h6 class="mt-4">View and Manage All Customers</h6>
+
                     </div>
                     <div class="card mb-4 mt-3">
                         <div class="card-header">
@@ -33,12 +33,16 @@
                             List of Users
                         </div>
                         <div class="card-body">
-                            <table class="usersTable">
+                            <table class="customersTable">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>username</th>
+                                        <th>FullName</th>
+                                        <th>Mobile</th>
                                         <th>Email</th>
+
+                                        <th>Address</th>
+                                        <th>Status</th>
                                         <th>Actions</th>
 
                                     </tr>
@@ -124,7 +128,7 @@
 
 
             $(document).on("click", "a.delete", function() {
-                var id = $(this).attr("deleteID");
+                var id = $(this).attr("delID");
 
                 swal({
                         title: "Are you sure?",
@@ -136,10 +140,10 @@
                     .then((willDelete) => {
                         if (willDelete) {
                             deleteUser(id, (res) => {
-                                swal(res.message, {
+                                swal("Customer data has been removed!", {
                                     icon: "success",
                                 });
-                                readUsers();
+                                readCustomers();
                             })
 
                         }
@@ -148,62 +152,87 @@
                         // }
                     });
             })
-            $(".save").click(() => {
-                if ($('.username').val() == "" || $('.email').val() == "" || $('.password').val() == "") {
-                    displayToast("All fields are required", "error", 3000);
-                    return;
-                }
-                if (!containsOnlyCharsAndDigits($('.username').val())) {
-                    displayToast("username must be only alphanumeric values", "error", 3000);
-                    return;
-                }
-                if (!isValidEmail($('.email').val())) {
-                    displayToast("Incorrect Email format", "error", 3000);
-                    return;
-                }
-                checkUser($(".email").val(), $(".username").val(), (res) => {
+            $(document).on("click", "a.block", function() {
+                var id = $(this).attr("statusID");
 
-                    if (res.status) {
-                        if (res.data.length > 0) {
-                            displayToast("User with this email or username already exist", "error", 3000)
-                            return;
+
+                swal({
+                        title: "Activation ?",
+                        text: "Do You want to activate this account?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            activate(id, "active", (res) => {
+                                swal("Customer status has been updated!", {
+                                    icon: "success",
+                                });
+                                readCustomers();
+                            })
+
                         }
-
-                        createUser({
-
-                            "username": $(".username").val(),
-                            "email": $(".email").val(),
-                            "password": $(".password").val()
-
-                        })
-                    } else {
-                        console.log("here is error");
-                        displayToast(res.description, "error", 3000)
-                    }
-
-                })
+                        // else {
+                        //     swal("Your imaginary file is safe!");
+                        // }
+                    });
+            })
+            $(document).on("click", "a.active", function() {
+                var id = $(this).attr("statusID");
 
 
+                swal({
+                        title: "Blocked ?",
+                        text: "Do You want to block this account?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            activate(id, "block", (res) => {
+                                swal("Customer status has been updated!", {
+                                    icon: "success",
+                                });
+                                readCustomers();
+                            })
+
+                        }
+                        // else {
+                        //     swal("Your imaginary file is safe!");
+                        // }
+                    });
             })
 
+
             // read users
-            function readUsers() {
+            function readCustomers() {
                 $.ajax({
                     method: "GET",
-                    url: "http://localhost:4200/users/",
+                    url: "http://localhost:4200/customers/",
                     success: function(res) {
                         $(".usersTable tbody").html('');
                         var html = "<tr>";
                         res.data.forEach(value => {
-                            html += `<td>${value.id}</td>`
-                            html += `<td>${value.username}</td>`
+                            html += `<td>${value.cust_id}</td>`
+                            html += `<td>${value.fullName}</td>`
+                            html += `<td>${value.mobile}</td>`
                             html += `<td>${value.email}</td>`
-                            html += `<td><a deleteID=${value.id} class='btn btn-danger delete'><i class="fa-solid fa-circle-minus"></i></a>`
+
+                            html += `<td>${value.address}</td>`
+                            if (value.account_status.toLowerCase() == "block")
+                                html += `<td><a statusID=${value.cust_id} class='btn btn-danger block'>Blocked</a>`
+                            else
+                                html += `<td><a statusID=${value.cust_id} class='btn btn-success active'>Active</a>`
+
+
+                            html += `<td><a delID=${value.cust_id} class='btn btn-danger delete'><i class="fa-solid fa-circle-minus"></i></a>`
                             html += "</tr>"
                         })
 
-                        $(".usersTable tbody").html(html);
-                        $('.usersTable').DataTable();
+                        $(".customersTable tbody").html(html);
+                        $('.customersTable').DataTable();
 
                     },
                     error: function(res) {
@@ -212,87 +241,122 @@
                 })
 
             }
-            readUsers()
+            readCustomers()
 
             // delete
             function deleteUser(id, response) {
                 $.ajax({
                     method: "DELETE",
-                    url: "http://localhost:4200/users/" + id,
+                    url: "http://localhost:4200/customers/deleteCustomer/" + id,
                     success: function(res) {
+                        if (!res.status) {
+                            displayToast("Something Went Wrong, During Deletion", "error", 3000);
+                            return;
+                        }
                         response(res)
                     },
                     error: function(res) {
                         console.log(res);
+                        displayToast(res.responseText, 'error', 5000);
                     }
                 })
 
             }
 
-            // create user
-            function createUser(data) {
-                $.ajax({
-                    method: "POST",
-                    dataType: "JSON",
-                    data: data,
-                    url: "http://localhost:4200/users/register",
-                    success: function(res) {
-                        if (res.status) {
-                            readUsers()
-                            displayToast("User Created Successfully", "success", 4000);
-                        } else {
-                            console.log("here is error2");
-                            displayToast(res.description, "error", 4000);
-                        }
-                    },
-                    error: function(res) {
-                        console.log(res);
-                        displayToast(res.responseText, "error", 4000);
-                    }
-                })
+            function activate(id, status, response) {
+                var data = new FormData();
+                data.append("status", status);
+                data.append("id", id);
 
-            }
-
-            function checkUser(email, username, response) {
                 $.ajax({
                     method: "POST",
                     dataType: "JSON",
                     data: {
-                        "email": email,
-                        "username": username
+                        "status": status,
+                        "id": id
                     },
-                    url: "http://localhost:4200/users/validateUser",
+                    url: "http://localhost:4200/customers/activate",
                     success: function(res) {
                         response(res);
                     },
                     error: function(res) {
                         console.log(res);
-                        displayToast(res.responseText, 4000);
                     }
-                })
-
+                });
             }
 
-            function containsOnlyCharsAndDigits(username) {
 
-                const charDigitRegex = /^[a-zA-Z0-9]+$/;
+            // create user
+            function createUser(data, hasFile = false) {
+                if (!hasFile) {
 
-                return charDigitRegex.test(username);
+                    $.ajax({
+                        method: "POST",
+                        dataType: "JSON",
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        data: data,
+                        url: "http://localhost:4200/users/register",
+                        success: function(res) {
+                            const {
+                                status,
+                                message
+                            } = res;
+                            if (status) {
+                                $('.error-handler-body').html(`
+                              <div class="alert alert-success">
+                            <strong>${message} 🔥</strong>
+                        </div>
+                                `);
+
+                                setTimeout(() => {
+                                    $('.error-handler-body').html('');
+                                }, 2000)
+                                readUsers();
+                            } else {
+                                $('.error-handler-body').html(` <
+                                                                        div class = "alert alert-danger" >
+                                                                        <
+                                                                        strong > $ {
+                                                                            message
+                                                                        }🔥 < /strong> <
+                                                                        /div>
+                                                                        `)
+                                setTimeout(() => {
+                                    $('.error-handler-body').html('');
+                                }, 2000)
+                                readUsers();
+
+                            }
+
+
+                        },
+                        error: function(res) {
+                            console.log(res);
+                        }
+                    })
+                } else {
+                    $.ajax({
+                        method: "POST",
+                        dataType: "JSON",
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        data: data,
+                        url: "http://localhost:4200/users/register",
+                        success: function(res) {
+
+                            console.log(res);
+                            readUsers();
+                        },
+                        error: function(res) {
+                            console.log(res);
+                        }
+                    })
+                }
             }
 
-            function isValidEmail(email) {
-
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                return emailRegex.test(email);
-            }
-
-            function hasSpaces(username) {
-
-                const spaceRegex = /\s/;
-
-                return spaceRegex.test(username);
-            }
             // toast
             function displayToast(message, type, timeout) {
                 if (type == "error") {

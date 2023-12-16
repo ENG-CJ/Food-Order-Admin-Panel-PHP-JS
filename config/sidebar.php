@@ -19,16 +19,22 @@
                  </a>
                  <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                      <nav class="sb-sidenav-menu-nested nav">
-                         <a class="nav-link" href="layout-static.html">Customers</a>
-                         <a class="nav-link" href="layout-static.html">Orders</a>
-                         <a class="nav-link" href="layout-static.html">Payments</a>
-                         <a class="nav-link" href="layout-static.html">Delivery</a>
-                         <a class="nav-link" href="layout-static.html">Foods</a>
+                         <a class="nav-link" href="customers.php">Customers</a>
+                         <a class="nav-link" href="orders.php">Orders</a>
+                         <!-- <a class="nav-link" href="payments.php">Payments</a> -->
+                         <a class="nav-link" href="categories.php">Categories</a>
+                         <a class="nav-link" href="foods.php">Foods</a>
 
 
                      </nav>
                  </div>
 
+                 <div class="sb-sidenav-menu-heading">Reports</div>
+                 <a class="nav-link" href="report.php">
+                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                     Report
+                 </a>
+               
                  <div class="sb-sidenav-menu-heading">Others</div>
                  <a class="nav-link" href="../views/user_profile.php">
                      <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>

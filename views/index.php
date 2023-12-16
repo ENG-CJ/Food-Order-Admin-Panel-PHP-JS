@@ -30,7 +30,7 @@
 
                                     <div class="left-item">
                                         <h5>Customers</h5>
-                                        <h4>30</h4>
+                                        <h4 class='customers'>30</h4>
                                     </div>
 
                                 </div>
@@ -42,8 +42,8 @@
                                 <div class="items-container">
 
                                     <div class="left-item">
-                                        <h5>Active Orders</h5>
-                                        <h4>90</h4>
+                                        <h5>Orders</h5>
+                                        <h4 class='orders'>90</h4>
                                     </div>
 
                                 </div>
@@ -57,8 +57,8 @@
                                     <div class="left-item">
                                         <h5>Pending Orders</h5>
                                         <div class="flex-items">
-                                            <i class="fab fa-facebook"></i>
-                                            <h4>30</h4>
+
+                                            <h4 class='pending'>30</h4>
                                         </div>
                                     </div>
                                     <div class="right-item">
@@ -68,13 +68,13 @@
                             </div>
                         </div>
                         <div class="col-4">
-                            <div class="card-container container-3">
+                            <div class="card-container container-2">
 
                                 <div class="items-container">
 
                                     <div class="left-item">
-                                        <h5>Balance ($)</h5>
-                                        <h4>$100</h4>
+                                        <h5>categories</h5>
+                                        <h4 class='categories'>$100</h4>
                                     </div>
                                     <div class="right-item">
 
@@ -89,7 +89,7 @@
 
                                     <div class="left-item">
                                         <h5>Foods</h5>
-                                        <h4>200</h4>
+                                        <h4 class='foods'>200</h4>
                                     </div>
                                     <div class="right-item">
 
@@ -98,13 +98,13 @@
                             </div>
                         </div>
                         <div class="col-4">
-                            <div class="card-container container-3">
+                            <div class="card-container">
 
                                 <div class="items-container">
 
                                     <div class="left-item">
                                         <h5>Users</h5>
-                                        <h4>200</h4>
+                                        <h4 class='users'>200</h4>
                                     </div>
                                     <div class="right-item">
 
@@ -122,91 +122,19 @@
                             Pending Orders
                         </div>
                         <div class="card-body">
-                            <table id="datatablesSimple">
+                            <table class='table pendingOrders'>
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>StartDate</th>
-                                        <th>Salary</th>
+                                        <th>#ID</th>
+                                        <th>Food</th>
+                                        <th>Price</th>
+                                        <th>Order Date</th>
+                                        <th>Status</th>
+
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
-                                    </tr>
-                                </tfoot>
+                         
                                 <tbody>
-
-
-
-
-
-
-
-                                    <tr>
-                                        <td>Cara Stevens</td>
-                                        <td>Sales Assistant</td>
-                                        <td>New York</td>
-                                        <td>46</td>
-                                        <td>2011/12/06</td>
-                                        <td>$145,600</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hermione Butler</td>
-                                        <td>Regional Director</td>
-                                        <td>London</td>
-                                        <td>47</td>
-                                        <td>2011/03/21</td>
-                                        <td>$356,250</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Lael Greer</td>
-                                        <td>Systems Administrator</td>
-                                        <td>London</td>
-                                        <td>21</td>
-                                        <td>2009/02/27</td>
-                                        <td>$103,500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jonas Alexander</td>
-                                        <td>Developer</td>
-                                        <td>San Francisco</td>
-                                        <td>30</td>
-                                        <td>2010/07/14</td>
-                                        <td>$86,500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Shad Decker</td>
-                                        <td>Regional Director</td>
-                                        <td>Edinburgh</td>
-                                        <td>51</td>
-                                        <td>2008/11/13</td>
-                                        <td>$183,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Michael Bruce</td>
-                                        <td>Javascript Developer</td>
-                                        <td>Singapore</td>
-                                        <td>29</td>
-                                        <td>2011/06/27</td>
-                                        <td>$183,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Donna Snider</td>
-                                        <td>Customer Support</td>
-                                        <td>New York</td>
-                                        <td>27</td>
-                                        <td>2011/01/25</td>
-                                        <td>$112,000</td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -230,6 +158,67 @@
     <script src="../js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="../js/datatables-simple-demo.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src='../iziToast-master/dist/js/iziToast.min.js'></script>
+    <script src='../iziToast-master/dist/js/iziToast.js'></script>
+    <script src='./printThis.js'></script>
+
+    <script>
+        $(document).ready(() => {
+            function count(table, endPoint, label) {
+                $.ajax({
+                    method: "GET",
+                    url: `http://localhost:4200/dashboard/${endPoint}/` + table,
+                    success: function(res) {
+                        console.log(res)
+                        label.text(res.data.row)
+                    },
+                    error: function(res) {
+                        console.log(res);
+                    }
+                })
+
+            }
+            count("users", "count", $(".users"))
+            count("customers", "count", $(".customers"))
+            count("orders", "count", $(".orders"))
+            count("foods", "count", $(".foods"))
+            count("categories", "count", $(".categories"))
+            count("orders", "countPendingOrders", $(".pending"))
+
+
+
+            function readOrders() {
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:4200/orders/pendingOrders",
+                    success: function(res) {
+                        $(".pendingOrders tbody").html('');
+                        var html = "<tr>";
+                        res.data.forEach(value => {
+                            html += `<td>${value.order_id}</td>`
+                            html += `<td>${value.food_name}</td>`
+                            html += `<td>$${value.price}</td>`
+                            html += `<td>${value.order_date}</td>`
+                            html += `<td>${value.order_status}</td>`
+                            html += "</tr>"
+                        })
+
+                        $(".pendingOrders tbody").html(html);
+                        $('.pendingOrders').DataTable();
+
+                    },
+                    error: function(res) {
+                        console.log(res);
+                    }
+                })
+
+            }
+            readOrders()
+        })
+    </script>
 </body>
 
 </html>
