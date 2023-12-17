@@ -1,167 +1,344 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="fonts/icomoon/style.css" />
 
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
     <!-- Style -->
-    <link rel="stylesheet" href="css/style.css">
-     <link rel="stylesheet" href="iziToast-master/dist/css/iziToast.css">
-    <link rel="stylesheet" href="iziToast-master/dist/css/iziToast.min.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="iziToast-master/dist/css/iziToast.css" />
+    <link rel="stylesheet" href="iziToast-master/dist/css/iziToast.min.css" />
 
     <title>Login Hilal Fast food</title>
   </head>
   <body>
-  
+    <div class="d-lg-flex half">
+      <div
+        class="bg order-1 order-md-2"
+        style="background-image: url('images/bg_1.jpg')"
+      ></div>
+      <div class="contents order-2 order-md-1">
+        <div class="container">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-md-7">
+              <h3>Login to <strong>Hilal Fast Food</strong></h3>
+              <p class="mb-4">Adminstration Zone.</p>
 
-  <div class="d-lg-flex half">
-    <div class="bg order-1 order-md-2" style="background-image: url('images/bg_1.jpg');"></div>
-    <div class="contents order-2 order-md-1">
-
-      <div class="container">
-        <div class="row align-items-center justify-content-center">
-          <div class="col-md-7">
-            <h3>Login to <strong>Hilal Fast Food</strong></h3>
-            <p class="mb-4">Adminstration Zone.</p>
-          
               <div class="form-group first">
                 <label for="username">Email</label>
-                <input type="text" class="form-control email" placeholder="your_email@gmail.com" id="username">
+                <input
+                  type="text"
+                  class="form-control email"
+                  placeholder="your_email@gmail.com"
+                  id="username"
+                />
               </div>
               <div class="form-group last mb-3">
                 <label for="password">Password</label>
-                <input type="password" class="form-control pass" placeholder="Your Password" id="password">
+                <input
+                  type="password"
+                  class="form-control pass"
+                  placeholder="Your Password"
+                  id="password"
+                />
               </div>
-              
+
               <div class="d-flex mb-5 align-items-center">
-               
-                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
+                <span class="ml-auto"
+                  ><a href="#" class="forgot-pass">Forgot Password</a></span
+                >
               </div>
 
-              <button type="button" class="btn btn-block btn-primary login">Login</button>
-
-        
+              <button type="button" class="btn btn-block btn-primary login">
+                Login
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+ <div class="modal fade email-modal" id="usersModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Find Email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="error-handler-body">
 
-    
-  </div>
-    
-    
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Email *</label>
+                        <input type="email" placeholder="example@gmail.com" class="form-control search-email" required>
+                    </div>
+                   
+               
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success search">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ <div class="modal fade forgot-modal" id="usersModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Password Changer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="error-handler-body">
 
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>New Password *</label>
+                        <input type="email" placeholder="example@gmail.com" class="form-control newPassword" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Confirm Password *</label>
+                        <input type="email" placeholder="example@gmail.com" class="form-control confirmPassword" required>
+                    </div>
+                   
+               
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success change">change</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
-     
-<script src='iziToast-master/dist/js/iziToast.min.js'></script>
-    <script src='/iziToast-master/dist/js/iziToast.js'></script>
+
+    <script src="iziToast-master/dist/js/iziToast.min.js"></script>
+    <script src="/iziToast-master/dist/js/iziToast.js"></script>
 
     <script>
-      $(document).ready(()=>{
+      $(document).ready(() => {
         localStorage.clear();
-        $(".login").click(()=>{
-          if($(".email").val()=="" || $(".pass").val()=="")
-              displayToast("Please enter your credentials","error",3000);
-          else{
-            validateCredentials($(".email").val(), $(".pass").val(),(res)=>{
-             if(res.data.length>0){
-              
-                localStorage.setItem("user_id",res.data[0].id);
-               
-                window.location.href="./views/"
-               
-             }else
-              displayToast("Incorrect User Credentials","error",3000)
-            })
+        $('.change').click(()=>{
+          if($(".newPassword").val()=="" || $('.confirmPassword').val()=="")
+          {
+            displayToast("New password and confirmation password are required ","error",4000);
+            return;
           }
+          if($(".confirmPassword").val()!= $('.newPassword').val())
+          {
+            displayToast("Confirm password must be same as new password ","error",4000);
+            return;
+          }
+
+          updateUserPassword($(".search-email").val(),$(".newPassword").val(),res=>{
+            if(res.status){
+              displayToast("your security number has been changed successfully","success",4000);
+              $('.forgot-modal').modal("hide");
+              return;
+            }
+
+
+          })
+
         })
 
+        $(".forgot-pass").click(() => {
+          $(".email-modal").modal("show");
+        });
 
-        function validateCredentials(email,pass,response){  
-         $.ajax({
-          method : "GET",
-          url : `http://localhost:4200/users/${email}/${pass}`,
-          success: (res)=> response(res),
-          error: (err)=> console.error(err)
-         })
+          function isValidEmail(email) {
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                return emailRegex.test(email);
+            }
+        $(".search").click(() => {
+          if($(".search-email").val()=="")
+           {
+            displayToast("Provide email if you want to forgot or update your password","error",4000);
+            return;
+           }
+           if(!isValidEmail($(".search-email").val()))
+           {
+            displayToast("Incorrect Email format!","error",4000);
+            return;
+           }
+
           
-          
+          findEmail($(".search-email").val(), (res) => {
+            if (res.data.length > 0) {
+              $(".email-modal").modal("hide");
+              $(".forgot-modal").modal("show");
+            } else displayToast("Provided email does not exist", "error", 4000);
+          });
+        });
+
+        function findEmail(email, response) {
+          $.ajax({
+            method: "POST",
+            dataType: "JSON",
+            data: { email: email },
+            url: "http://localhost:4200/users/findEmail",
+            success: (res) => {
+              if (res.status) {
+                response(res);
+              } else
+                displayToast(
+                  "Something went wrong, Please try again",
+                  "error",
+                  4000
+                );
+            },
+            error: (res) => {
+              displayToast(res.responseText, "error", 4000);
+            },
+          });
+        }
+        function updateUserPassword(email,password, response) {
+          $.ajax({
+            method: "POST",
+            dataType: "JSON",
+            data: { email: email,"password":password },
+            url: "http://localhost:4200/users/updateUserPass",
+            success: (res) => {
+              if (res.status) {
+                response(res);
+              } else
+                displayToast(
+                  "Something went wrong, Please try again",
+                  "error",
+                  4000
+                );
+            },
+            error: (res) => {
+              displayToast(res.responseText, "error", 4000);
+            },
+          });
+        }
+
+        $(".login").click(() => {
+          if ($(".email").val() == "" || $(".pass").val() == "")
+            displayToast("Please enter your credentials", "error", 3000);
+          else {
+             if(!isValidEmail($(".email").val()))
+           {
+            displayToast("Incorrect Email format!","error",4000);
+            return;
+           }
+            validateCredentials($(".email").val(), $(".pass").val(), (res) => {
+              if (res.data.length > 0) {
+                localStorage.setItem("user_id", res.data[0].id);
+
+                window.location.href = "./views/";
+              } else displayToast("Incorrect User Credentials", "error", 3000);
+            });
+          }
+        });
+
+        function validateCredentials(email, pass, response) {
+          $.ajax({
+            method: "GET",
+            url: `http://localhost:4200/users/${email}/${pass}`,
+            success: (res) => response(res),
+            error: (err) => console.error(err),
+          });
         }
 
         function displayToast(message, type, timeout) {
-                if (type == "error") {
-                    iziToast.error({
-                        title: 'Error Encountered! ',
-                        message: message,
-                        backgroundColor: "#D83A56",
-                        titleColor: "white",
-                        messageColor: "white",
-                        position: "topRight",
-                        timeout: timeout
-                    });
-                } else if (type == "success") {
-                    iziToast.success({
-
-                        message: message,
-                        backgroundColor: "#54B435",
-                        titleColor: "white",
-                        messageColor: "white",
-                        position: "topRight",
-                        timeout: timeout
-                    });
-                } else if (type == "ask") {
-                    iziToast.question({
-                        timeout: timeout,
-                        close: false,
-                        overlay: true,
-                        displayMode: 'once',
-                        id: 'question',
-                        zindex: 999,
-                        title: "Condirm!",
-                        message: message,
-                        position: 'topRight',
-                        titleColor: "#86E5FF",
-                        messageColor: "white",
-                        backgroundColor: "#0081C9",
-                        iconColor: "white",
-                        buttons: [
-                            ['<button style="background: #DC3535; color: white;"><b>YES</b></button>', function(instance, toast) {
-                                alert("Ok Deleted...");
-                                instance.hide({
-                                    transitionOut: 'fadeOut'
-                                }, toast, 'button');
-
-                            }, true],
-                            ['<button style="background: #ECECEC; color: #2b2b2b;">NO</button>', function(instance, toast) {
-                                alert("Retuned");
-                                instance.hide({
-                                    transitionOut: 'fadeOut'
-                                }, toast, 'button');
-
-                            }],
-                        ],
-                        onClosing: function(instance, toast, closedBy) {
-                            //  console.info('Closing | closedBy: ' + closedBy);
-                        },
-                        onClosed: function(instance, toast, closedBy) {
-                            // console.info('Closed | closedBy: ' + closedBy);
-                        }
-                    });
-                }
-            }
-      })
+          if (type == "error") {
+            iziToast.error({
+              title: "Error Encountered! ",
+              message: message,
+              backgroundColor: "#D83A56",
+              titleColor: "white",
+              messageColor: "white",
+              position: "topRight",
+              timeout: timeout,
+            });
+          } else if (type == "success") {
+            iziToast.success({
+              message: message,
+              backgroundColor: "#54B435",
+              titleColor: "white",
+              messageColor: "white",
+              position: "topRight",
+              timeout: timeout,
+            });
+          } else if (type == "ask") {
+            iziToast.question({
+              timeout: timeout,
+              close: false,
+              overlay: true,
+              displayMode: "once",
+              id: "question",
+              zindex: 999,
+              title: "Condirm!",
+              message: message,
+              position: "topRight",
+              titleColor: "#86E5FF",
+              messageColor: "white",
+              backgroundColor: "#0081C9",
+              iconColor: "white",
+              buttons: [
+                [
+                  '<button style="background: #DC3535; color: white;"><b>YES</b></button>',
+                  function (instance, toast) {
+                    alert("Ok Deleted...");
+                    instance.hide(
+                      {
+                        transitionOut: "fadeOut",
+                      },
+                      toast,
+                      "button"
+                    );
+                  },
+                  true,
+                ],
+                [
+                  '<button style="background: #ECECEC; color: #2b2b2b;">NO</button>',
+                  function (instance, toast) {
+                    alert("Retuned");
+                    instance.hide(
+                      {
+                        transitionOut: "fadeOut",
+                      },
+                      toast,
+                      "button"
+                    );
+                  },
+                ],
+              ],
+              onClosing: function (instance, toast, closedBy) {
+                //  console.info('Closing | closedBy: ' + closedBy);
+              },
+              onClosed: function (instance, toast, closedBy) {
+                // console.info('Closed | closedBy: ' + closedBy);
+              },
+            });
+          }
+        }
+      });
     </script>
   </body>
 </html>

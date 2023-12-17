@@ -26,7 +26,8 @@
                     <div class="">
                         <h6 class="mt-4">Report Orders</h6>
                         <div class="alert alert-primary">
-                            <strong>To print Full Data, click 👉 <i class="fa-solid fa-eye"></i> icon and then print</strong>
+                            <strong>To print Full Data, click 👉 <i class="fa-solid fa-eye"></i> icon and then
+                                print</strong>
                         </div>
 
                     </div>
@@ -166,107 +167,119 @@
             $('.printAll').click(() => {
 
                 printAllData(res => {
-                    console.log(res)
+                    let previousCustomerName = '';
+                    let totalAmount = 0;
+                    $('.print-area').html('');
+
+                    // Create a table element with Bootstrap classes and inline styles
+                    const table = $(`
+        <table class="table" style="width: 100%; border-collapse: collapse;">
+            <thead style="background-color: #f2f2f2;">
+                <tr>
+                    <th style="padding: 8px;">ID</th>
+                    <th style="padding: 8px;">Name</th>
+                    <th style="padding: 8px;">Mobile</th>
+                    <th style="padding: 8px;">Address</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    `);
+
+                    let isOrderHeaderAdded = false;
+
                     res.data.forEach(value => {
-                        $('.print-area').append(`
-                    
-                  <div class='my-2'>
-                    <h3 class='text-center fw-bold'>Report</h3>
-                    <h5 class='text-center fw-bold'>HILAAL <span>FAST FOOD</span></h5>
-                        <h6 class='text-center'>615178163 | 6100990090</h6>
-                  </div>
+                        // Display customer details if the current customer name is different from the previous one
+                        if (value.fullName !== previousCustomerName) {
+                            // Create a table row for customer details
+                            const customerRow = `
+                <tr>
+                    <td style="padding: 8px;">${value.CustomerID}</td>
+                    <td style="padding: 8px;">${value.fullName}</td>
+                    <td style="padding: 8px;">${value.mobile}</td>
+                    <td style="padding: 8px;">${value.address}</td>
+                </tr>
+            `;
 
-                        <div class="order-details-area my-5">
-                            <h6>Order Details</h6>
-                            <table class="table">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Food</th>
-                                    <th>FoodPrice</th>
-                                    <th>Quantity</th>
-                                    <th>total_amount</th>
-                                    <th>status</th>
-                                   
-                                </tr>
-                                <tr>
-                                    <td>${value.order_id}</td>
-                                    <td>${value.food_name}</td>
-                                    <td>$${value.FoodPrice}</td>
-                                    <td>${value.quantity}</td>
-                                    <td>$${value.total_amount}</td>
-                                    <td>${value.order_status}</td>
-                                 
-                                </tr>
-                            </table>
-                        </div>
+                            // Append customer details row to the table body
+                            table.find('tbody').append(customerRow);
 
-                        <div class="customer-details-area my-5">
-                            <h6>Customer Details</h6>
-                            <table class="table">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Mobile</th>
-                                    <th>Address</th>
-                                   
-                                </tr>
-                                <tr>
-                                    <td>${value.CustomerID}</td>
-                                    <td>${value.fullName}</td>
-                                    <td>${value.mobile}</td>
-                                    <td>$${value.address}</td>
-                                    
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="payment-details-area my-5">
-                            <h6>Payment Details</h6>
-                            <table class="table">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>amount</th>
-                                    <th>Paid Date</th>
-                                    <th>approval</th>
-                                   
-                                </tr>
-                                <tr>
-                                    <td>${value.pay_id}</td>
-                                    <td>$${value.amount}</td>
-                                    <td>${value.paid_date}</td>
-                                    <td>${value.approval}</td>
-                                    
-                                </tr>
-                            </table>
-                        </div>
-                        <div class=''>
-                         <strong>The placement of this order occurred on ${value.order_date}.</strong>
-                            <br>
-                          
-                        </div>
+                            // Update previous customer name
+                            previousCustomerName = value.fullName;
 
-                      
+                            // Reset the flag for order header and total amount
+                            isOrderHeaderAdded = false;
+                            totalAmount = 0;
+                        }
 
-                      
-                    
-                    `);
+                        // Add order details column headers if not added yet
+                        if (!isOrderHeaderAdded) {
+                            const orderHeader = `
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px;">Order ID</th>
+                    <th style="padding: 8px;">Food Name</th>
+                    <th style="padding: 8px;">Food Price</th>
+                    <th style="padding: 8px;">Quantity</th>
+                </tr>
+            `;
+                            table.find('tbody').append(orderHeader);
 
-                    })
-                    var others = `  <div class="others">
-                            <strong class='text-muted text-center'>Processed By: Hilal Fast Food</strong><br>
-                            <img src="http://localhost/NodeProject/Online%20Food%20AdminPanel/images/logo.png" class='img-fluid' style='width: 200px; height: 200px' />
-                        </div>`;
-                    $('.print-area').append(others)
+                            // Set the flag to true to prevent adding order headers again
+                            isOrderHeaderAdded = true;
+                        }
+
+                        // Calculate total amount for each customer's order
+                        const orderTotal = value.FoodPrice * value.quantity;
+                        totalAmount += orderTotal;
+
+                        // Create a table row for order details
+                        const orderRow = `
+            <tr>
+                <td style="padding: 8px;">${value.order_id}</td>
+                <td style="padding: 8px;">${value.food_name}</td>
+                <td style="padding: 8px;">$${value.FoodPrice}</td>
+                <td style="padding: 8px;">${value.quantity}</td>
+            </tr>
+        `;
+
+                        // Append order details row to the table body
+                        table.find('tbody').append(orderRow);
+
+                        // Display total amount at the end of each customer's order
+                        if (res.data.indexOf(value) === res.data.length - 1 || res.data[res.data.indexOf(value) + 1].fullName !== previousCustomerName) {
+                            const totalRow = `
+                <tr style="background-color: #f2f2f2;">
+                    <td colspan="3" style="padding: 8px;"></td>
+                    <td style="padding: 8px;"><strong>Total: $${totalAmount}</strong></td>
+                </tr>
+            `;
+                            table.find('tbody').append(totalRow);
+                        }
+                    });
+
+                    // Append the completed table to the print-area div
+                    $('.print-area').append(table);
+
+                    // Show the modal
+                    $('.view-order').modal("show");
+                });
 
 
-                    $('.view-order').modal("show")
-                })
-                // })
+
             })
             $(document).on("click", "a.view", function() {
                 var id = $(this).attr("viewID");
 
                 readSinglePrintableData(id, res => {
                     console.log(res)
+                    $('.print-area').html('');
+                    var html = '';
+                    if (res.data[0][0].Paid.toLowerCase() == "yes")
+                        html += `<div><strong>Paid : ${res.data[0][0].Paid}</strong></div>`
+                    else
+                        html += `<div><strong>Paid : ${res.data[0][0].Paid}</strong></div>`
+
                     $('.print-area').html(`
                     
                     <h3 class='text-center fw-bold'>Report</h3>
@@ -316,26 +329,9 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="payment-details-area my-5">
-                            <h6>Payment Details</h6>
-                            <table class="table">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>amount</th>
-                                    <th>Paid Date</th>
-                                    <th>approval</th>
-                                   
-                                </tr>
-                                <tr>
-                                    <td>${res.data[0][0].pay_id}</td>
-                                    <td>$${res.data[0][0].amount}</td>
-                                    <td>${res.data[0][0].paid_date}</td>
-                                    <td>${res.data[0][0].approval}</td>
-                                    
-                                </tr>
-                            </table>
+                 <div class="paid my-2">
+                            ${html}
                         </div>
-
                         <div class="others">
                             <strong>The placement of this order occurred on ${res.data[0][0].order_date}.</strong>
                             <br>
@@ -462,7 +458,7 @@
 
             }
 
-          
+
 
             function activate(id, status, response) {
                 $.ajax({

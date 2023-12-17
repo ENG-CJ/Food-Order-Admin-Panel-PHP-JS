@@ -122,6 +122,9 @@
                             Pending Orders
                         </div>
                         <div class="card-body">
+                            <div class="info-area">
+
+                            </div>
                             <table class='table pendingOrders'>
                                 <thead>
                                     <tr>
@@ -133,7 +136,7 @@
 
                                     </tr>
                                 </thead>
-                         
+
                                 <tbody>
                                 </tbody>
                             </table>
@@ -195,7 +198,18 @@
                     method: "GET",
                     url: "http://localhost:4200/orders/pendingOrders",
                     success: function(res) {
+                        console.log(res)
                         $(".pendingOrders tbody").html('');
+                        if (res.data.length == 0) {
+                            $('.info-area').html(`
+                             <div class="alert alert-primary">
+                                <strong>Currently, there are no pending orders.</strong>
+                            </div>
+                            
+                            `)
+                            return;
+                        }
+                        $('.info-area').html('');
                         var html = "<tr>";
                         res.data.forEach(value => {
                             html += `<td>${value.order_id}</td>`

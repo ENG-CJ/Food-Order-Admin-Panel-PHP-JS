@@ -1,0 +1,81 @@
+                printAllData(res => {
+                    let previousCustomerName = '';
+                    $('.print-area').html('');
+
+                    // Create a table element with Bootstrap classes and inline styles
+                    const table = $(`
+        <table class="table" style="width: 100%; border-collapse: collapse;">
+            <thead style="background-color: #f2f2f2;">
+                <tr>
+                    <th style="padding: 8px;">ID</th>
+                    <th style="padding: 8px;">Name</th>
+                    <th style="padding: 8px;">Mobile</th>
+                    <th style="padding: 8px;">Address</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    `);
+
+                    let isOrderHeaderAdded = false;
+
+                    res.data.forEach(value => {
+                        // Display customer details if the current customer name is different from the previous one
+                        if (value.fullName !== previousCustomerName) {
+                            // Create a table row for customer details
+                            const customerRow = `
+                <tr>
+                    <td style="padding: 8px;">${value.CustomerID}</td>
+                    <td style="padding: 8px;">${value.fullName}</td>
+                    <td style="padding: 8px;">${value.mobile}</td>
+                    <td style="padding: 8px;">${value.address}</td>
+                </tr>
+            `;
+
+                            // Append customer details row to the table body
+                            table.find('tbody').append(customerRow);
+
+                            // Update previous customer name
+                            previousCustomerName = value.fullName;
+
+                            // Reset the flag for order header
+                            isOrderHeaderAdded = false;
+                        }
+
+                        // Add order details column headers if not added yet
+                        if (!isOrderHeaderAdded) {
+                            const orderHeader = `
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px;">Order ID</th>
+                    <th style="padding: 8px;">Food Name</th>
+                    <th style="padding: 8px;">Food Price</th>
+                    <th style="padding: 8px;">Quantity</th>
+                </tr>
+            `;
+                            table.find('tbody').append(orderHeader);
+
+                            // Set the flag to true to prevent adding order headers again
+                            isOrderHeaderAdded = true;
+                        }
+
+                        // Create a table row for order details
+                        const orderRow = `
+            <tr>
+                <td style="padding: 8px;">${value.order_id}</td>
+                <td style="padding: 8px;">${value.food_name}</td>
+                <td style="padding: 8px;">$${value.FoodPrice}</td>
+                <td style="padding: 8px;">${value.quantity}</td>
+            </tr>
+        `;
+
+                        // Append order details row to the table body
+                        table.find('tbody').append(orderRow);
+                    });
+
+                    // Append the completed table to the print-area div
+                    $('.print-area').append(table);
+
+                    // Show the modal
+                    $('.view-order').modal("show");
+                });
